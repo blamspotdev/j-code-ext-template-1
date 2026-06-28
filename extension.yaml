@@ -1,7 +1,7 @@
 id: jcode.templates
 name: JCode Project Templates
 publisher: jcode
-version: 0.2.0
+version: 0.2.1
 type: templates
 description: >-
   First-party project templates scaffolded on-device by the embedded runtime.
