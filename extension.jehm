@@ -1,0 +1,45 @@
+---
+schema: 1
+uniqueName: jcode.templates
+name: JCode Project Templates
+version: 0.2.1
+type: templates
+publisher: jcode
+shortDescription: First-party project templates scaffolded on-device by the embedded runtime.
+minJCodeVersion: 1.0.0
+targetJCodeVersion: 1.0.0
+category: Templates
+subcategory: Project
+requires:
+  sdks: []
+  lsps: []
+  extensions: []
+suggests:
+  sdks: [dotnet, nodejs]
+  lsps: []
+  extensions: [jcode.lang.csharp, jcode.lang.typescript, jcode.lang.javascript]
+images:
+  icon: ""
+  samples: []
+  walkthrough: []
+entry:
+  manifest: extension.yaml
+  ui: null
+  libs: []
+fingerprint:
+  algo: sha256
+  value: null
+---
+
+# JCode Project Templates
+
+First-party project templates scaffolded on-device by the embedded runtime. Each
+template under `templates/<id>/` is self-contained.
+
+- `empty` — a minimal project
+- `aspnet-vite-react-ts` — ASP.NET Core API + Vite/React (TypeScript)
+- `react-app` — React single-page app (Vite)
+- `angular-aspnet` — Angular front-end + ASP.NET Core API
+
+Suggests the **dotnet** and **nodejs** SDKs and the matching language packs. See
+`extension.yaml` and each `templates/<id>/template.yaml` for the recipes.
