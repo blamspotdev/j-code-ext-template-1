@@ -2,7 +2,7 @@
 
 A JCode **templates** extension: first-party project templates scaffolded
 on-device by the embedded runtime. Installed through the
-[JCode Marketplace](https://github.com/janrick123/j-code-marketplace).
+[JCode Marketplace](https://github.com/blamspotdev/j-code-marketplace).
 
 ```
 extension.yaml                 # manifest (id, name, version, type: templates, template ids)
