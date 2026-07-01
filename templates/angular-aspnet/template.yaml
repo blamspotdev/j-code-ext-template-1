@@ -1,8 +1,6 @@
 id: angular-aspnet
 name: Angular and ASP.NET Core
-description: >-
-  An Angular client served by an ASP.NET Core minimal-API server. The client is
-  built into the server's wwwroot; its editable source is copied into the project.
+description: An Angular client served by an ASP.NET Core minimal-API backend.
 requires:
   - dotnet
   - nodejs

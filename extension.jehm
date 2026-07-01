@@ -2,7 +2,7 @@
 schema: 1
 uniqueName: jcode.templates
 name: JCode Project Templates
-version: 0.2.1
+version: 0.2.2
 type: templates
 publisher: jcode
 shortDescription: First-party project templates scaffolded on-device by the embedded runtime.

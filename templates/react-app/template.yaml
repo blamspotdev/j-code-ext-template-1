@@ -1,9 +1,6 @@
 id: react-app
 name: React App
-description: >-
-  A React single-page app scaffolded with Vite. The editable source is copied
-  into the project; the initial install runs on the runtime's ext4 home (FUSE
-  storage has no symlinks, so node_modules cannot live under /workspace).
+description: A React single-page app scaffolded with Vite.
 requires:
   - nodejs
 recipe:
