@@ -1,0 +1,57 @@
+id: node-express-api
+name: Node.js Express API
+description: A minimal Express REST API (Node.js).
+requires:
+  - nodejs
+recipe:
+  - label: Write project files
+    workdir: "{{hostStaging}}"
+    run: |
+      mkdir -p app
+      cat > app/package.json <<'EOF'
+      {
+        "name": "{{name}}",
+        "version": "1.0.0",
+        "type": "module",
+        "main": "server.js",
+        "scripts": { "start": "node server.js" },
+        "dependencies": { "express": "^4.19.2" }
+      }
+      EOF
+      cat > app/server.js <<'EOF'
+      import express from "express";
+
+      const app = express();
+      app.use(express.json());
+
+      app.get("/api/health", (req, res) => res.json({ status: "ok" }));
+      app.get("/api/hello", (req, res) => res.json({ message: "Hello from Express" }));
+
+      const port = process.env.PORT || 3000;
+      app.listen(port, "0.0.0.0", () => console.log(`API on http://localhost:${port}`));
+      EOF
+  - label: Install dependencies
+    workdir: "{{hostStaging}}/app"
+    run: npm install
+  - label: Copy source into project
+    run: cd "{{hostStaging}}/app" && tar --exclude=node_modules -cf - . | (cd "{{projectDir}}" && tar -xf -)
+  - label: Configure Build & Run
+    run: |
+      mkdir -p "{{projectDir}}/.jcode"
+      cat > "{{projectDir}}/.jcode/run.yaml" <<'YAML'
+      version: 1
+      name: Express API (dev)
+      readyPort: 3000
+      terminals:
+        - label: API
+          command: |
+            clear
+            set -e
+            SRC="{{projectDir}}"
+            STAGE="$HOME/.jcode-run/{{name}}-api"
+            echo '== J Code: Express API =='
+            rm -rf "$STAGE" && mkdir -p "$STAGE" && cp -a "$SRC/." "$STAGE/"
+            cd "$STAGE"
+            npm install
+            PORT=3000 node server.js
+      YAML

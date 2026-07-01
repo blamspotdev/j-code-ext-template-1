@@ -1,0 +1,50 @@
+id: fastapi-app
+name: Python FastAPI
+description: An async REST API built with FastAPI and Uvicorn.
+requires:
+  - python
+recipe:
+  - label: Write project files
+    run: |
+      mkdir -p "{{projectDir}}"
+      cat > "{{projectDir}}/main.py" <<'EOF'
+      from fastapi import FastAPI
+
+      app = FastAPI()
+
+
+      @app.get("/api/health")
+      def health():
+          return {"status": "ok"}
+
+
+      @app.get("/api/hello")
+      def hello():
+          return {"message": "Hello from FastAPI"}
+      EOF
+      cat > "{{projectDir}}/requirements.txt" <<'EOF'
+      fastapi
+      uvicorn[standard]
+      EOF
+  - label: Configure Build & Run
+    run: |
+      mkdir -p "{{projectDir}}/.jcode"
+      cat > "{{projectDir}}/.jcode/run.yaml" <<'YAML'
+      version: 1
+      name: FastAPI (dev)
+      readyPort: 8000
+      terminals:
+        - label: API
+          command: |
+            clear
+            set -e
+            SRC="{{projectDir}}"
+            STAGE="$HOME/.jcode-run/{{name}}-api"
+            echo '== J Code: FastAPI (Uvicorn) =='
+            rm -rf "$STAGE" && mkdir -p "$STAGE" && cp -a "$SRC/." "$STAGE/"
+            cd "$STAGE"
+            python3 -m venv --copies .venv
+            . .venv/bin/activate
+            pip install --disable-pip-version-check -q -r requirements.txt
+            uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+      YAML

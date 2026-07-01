@@ -4,9 +4,20 @@ description: An ASP.NET Core API with a Vite + React (TypeScript) client.
 requires:
   - dotnet
   - nodejs
+inputs:
+  - id: dotnetTfm
+    label: .NET version
+    type: select
+    options: ["net8.0", "net9.0", "net10.0"]
+    default: "net8.0"
 recipe:
   - label: Create ASP.NET Core server
     run: dotnet new web -o "{{projectDir}}/Server"
+  - label: Set target framework
+    run: |
+      for cs in "{{projectDir}}/Server"/*.csproj; do
+        sed -i "s#<TargetFramework>[^<]*</TargetFramework>#<TargetFramework>{{dotnetTfm}}</TargetFramework>#" "$cs"
+      done
   - label: Serve the built client from the server
     run: |
       cat > "{{projectDir}}/Server/Program.cs" <<'EOF'
@@ -53,11 +64,6 @@ recipe:
             PROJ="{{projectDir}}"
             SRV="$HOME/.jcode-run/{{name}}-server"
             echo '== J Code: Server (ASP.NET Core - Development) =='
-            TFM=$(dotnet --list-sdks 2>/dev/null | awk '{print $1}' | sort -V | tail -1 | cut -d. -f1); [ -n "$TFM" ] && TFM="net${TFM}.0" || TFM=net8.0
-            echo "[setup] Target framework: $TFM"
-            for cs in "$PROJ/Server"/*.csproj; do
-              sed -i "s#<TargetFramework>[^<]*</TargetFramework>#<TargetFramework>$TFM</TargetFramework>#" "$cs" 2>/dev/null || true
-            done
             CSPROJ=$(ls "$PROJ/Server"/*.csproj | head -1)
             echo '[1/2] Building server (dotnet build, Debug)...'
             rm -rf "$SRV"

@@ -1,0 +1,53 @@
+id: flask-app
+name: Python Flask
+description: A minimal Flask web app.
+requires:
+  - python
+recipe:
+  - label: Write project files
+    run: |
+      mkdir -p "{{projectDir}}"
+      cat > "{{projectDir}}/app.py" <<'EOF'
+      from flask import Flask, jsonify
+
+      app = Flask(__name__)
+
+
+      @app.get("/")
+      def index():
+          return "<h1>Hello from Flask</h1>"
+
+
+      @app.get("/api/health")
+      def health():
+          return jsonify(status="ok")
+
+
+      if __name__ == "__main__":
+          app.run(host="0.0.0.0", port=5000)
+      EOF
+      cat > "{{projectDir}}/requirements.txt" <<'EOF'
+      flask
+      EOF
+  - label: Configure Build & Run
+    run: |
+      mkdir -p "{{projectDir}}/.jcode"
+      cat > "{{projectDir}}/.jcode/run.yaml" <<'YAML'
+      version: 1
+      name: Flask (dev)
+      readyPort: 5000
+      terminals:
+        - label: Web
+          command: |
+            clear
+            set -e
+            SRC="{{projectDir}}"
+            STAGE="$HOME/.jcode-run/{{name}}-web"
+            echo '== J Code: Flask =='
+            rm -rf "$STAGE" && mkdir -p "$STAGE" && cp -a "$SRC/." "$STAGE/"
+            cd "$STAGE"
+            python3 -m venv --copies .venv
+            . .venv/bin/activate
+            pip install --disable-pip-version-check -q -r requirements.txt
+            python app.py
+      YAML

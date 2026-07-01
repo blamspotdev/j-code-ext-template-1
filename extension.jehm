@@ -2,7 +2,7 @@
 schema: 1
 uniqueName: jcode.templates
 name: JCode Project Templates
-version: 0.2.2
+version: 0.3.0
 type: templates
 publisher: jcode
 shortDescription: First-party project templates scaffolded on-device by the embedded runtime.
@@ -15,9 +15,9 @@ requires:
   lsps: []
   extensions: []
 suggests:
-  sdks: [dotnet, nodejs]
+  sdks: [dotnet, nodejs, python]
   lsps: []
-  extensions: [jcode.lang.csharp, jcode.lang.typescript, jcode.lang.javascript]
+  extensions: [jcode.lang.csharp, jcode.lang.typescript, jcode.lang.javascript, jcode.lang.python]
 images:
   icon: media/icon.png
   samples: []
@@ -38,8 +38,15 @@ template under `templates/<id>/` is self-contained.
 
 - `empty` — a minimal project
 - `aspnet-vite-react-ts` — ASP.NET Core API + Vite/React (TypeScript)
-- `react-app` — React single-page app (Vite)
+- `aspnet-webapi` — ASP.NET Core Web API (backend only)
+- `blazor-app` — C# Blazor Web App
 - `angular-aspnet` — Angular front-end + ASP.NET Core API
+- `react-app` — React single-page app (Vite)
+- `nextjs-app` — Next.js app (App Router, TypeScript)
+- `node-express-api` — Node.js Express REST API
+- `fastapi-app` — Python FastAPI (async API)
+- `flask-app` — Python Flask app
 
-Suggests the **dotnet** and **nodejs** SDKs and the matching language packs. See
+The `.NET` templates ask for a target `.NET` version before scaffolding. Suggests
+the **dotnet**, **nodejs**, and **python** SDKs and the matching language packs. See
 `extension.yaml` and each `templates/<id>/template.yaml` for the recipes.
